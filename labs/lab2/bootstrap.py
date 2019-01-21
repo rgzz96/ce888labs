@@ -1,5 +1,5 @@
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 import pandas as pd
 import seaborn as sns
 import numpy as np
@@ -7,7 +7,17 @@ import numpy as np
 
 def boostrap(sample, sample_size, iterations):
 	# <---INSERT YOUR CODE HERE--->
-	return data_mean, lower, upper
+   arr1 = np.empty([iterations, sample_size])
+   pmean = np.empty([iterations, 1])
+   
+   for i in range(iterations):
+       arr1[i] = np.random.choice(sample, size=sample_size)
+       pmean[i] = np.mean(arr1[i])
+       
+   data_mean = np.mean(pmean)
+   lower = np.percentile(pmean, 2.5)
+   upper = np.percentile(pmean, 97.5)
+   return data_mean, lower, upper
 
 
 if __name__ == "__main__":
@@ -29,6 +39,8 @@ if __name__ == "__main__":
 
 	sns_plot.savefig("bootstrap_confidence.png", bbox_inches='tight')
 	sns_plot.savefig("bootstrap_confidence.pdf", bbox_inches='tight')
+
+
 
 
 	#print ("Mean: %f")%(np.mean(data))
